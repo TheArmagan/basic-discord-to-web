@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "express": "^4.17.1",
+    "socket.io": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.12",
+    "@types/node": "^15.12.4"
+  },
+  "name": "discord-to-web",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "GNU-GPL3-or-later",
+  "repository": "https://github.com/TheArmagan/discord-to-web",
+  "author": "Kıraç Armağan Önal",
+  "private": false
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    html, body, #app {
+      width: 100%;
+      height: 100%;
+      background-color: #55505C;
+    }
+
+    #app {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .messages {
+      background-color: #5D737E;
+      max-width: 360px;
+      width: 100%;
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      border-radius: 16px;
+
+      box-shadow:
+        0 2.8px 2.2px rgba(0, 0, 0, 0.045),
+        0 6.7px 5.3px rgba(0, 0, 0, 0.065),
+        0 12.5px 10px rgba(0, 0, 0, 0.08),
+        0 22.3px 17.9px rgba(0, 0, 0, 0.095),
+        0 41.8px 33.4px rgba(0, 0, 0, 0.115),
+        0 100px 80px rgba(0, 0, 0, 0.16)
+      ;
+
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .message {
+      width: 100%;
+      display: flex;
+      padding-bottom: 8px;
+      align-items: center;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+    }
+
+    .author {
+      margin-right: 8px;
+      font-weight: bold;
+      color: whitesmoke;
+    }
+
+    .content {
+      color: rgb(214, 214, 214);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div ref="messages" class="messages">
+      <div v-for="msg in messages" :key="msg.messageId" :id="msg.messageId" class="message">
+        <div class="author" :id="msg.authorId">
+          {{msg.authorTag}}:
+        </div>
+        <div class="content">
+          {{msg.messageContent}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/socket.io/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      data() {
+        return {
+          messages: [],
+          socket: io("/")
+        }
+      },
+      mounted() {
+        this.socket.on("discord:message", (msg)=>{
+          this.messages.push(msg);
+          this.$nextTick(()=>{
+            this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+          });
+        })
+      }
+    });
+    app.$mount("#app");
+  </script>
+</body>
+</html>
