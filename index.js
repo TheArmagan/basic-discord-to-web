@@ -8,6 +8,8 @@ const client = new Discord.Client();
 
 const path = require("path");
 
+const config = require("./config.json");
+
 app.use(express.static(path.resolve("./static")));
 
 
@@ -36,10 +38,10 @@ io.on("connection", (socket) => {
 
 
 io.listen(httpServer);
-httpServer.listen(process.env.PORT || 8080);
-client.login("ODQ1NjUwNjM4Mzk3MjQzNDAz.YKkDhw.093Rxd2NLE4DkMe7Cx_jG-KlCTM").then(() => {
+httpServer.listen(process.env.PORT || config.PORT);
+client.login(config.BOT_TOKEN).then(() => {
   console.log("Giriş yaptım!");
-  console.log(`http://127.0.0.1:${process.env.PORT || 8080}`)
+  console.log(`http://127.0.0.1:${process.env.PORT || config.PORT}`)
 });
 
 
